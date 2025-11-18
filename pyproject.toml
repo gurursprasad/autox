@@ -1,0 +1,43 @@
+[project]
+name = "autox"
+version = "0.1.0"
+description = "A versatile test automation and DevOps CLI tool that executes tests, provisions infrastructure, destroys environments, and streamlines automation workflows for modern QA projects."
+authors = [
+    {name = "Guru Prasad"},
+    {email = "gurursprasad@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "click",
+    "pytest",
+    "pytest-html",
+    "selenium",
+    "webdriver-manager",
+    "playwright",
+    "python-dotenv",
+    "requests",
+    "responses",
+    "boto3",
+    "botocore",
+    "docker",
+    "kubernetes",
+    "pyyaml",
+    "rich",
+    "openpyxl",
+    "pexpect",
+    "paramiko",
+    "pandas",
+    "jsonschema"
+
+]
+
+
+[project.scripts]
+autox = "autox.cli.root:cli"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
