@@ -21,5 +21,3 @@ class ConfigMap(Enum):
     # Terraform repo related configurations
     tf_github_repo = "TF_GITHUB_REPO"
     tf_github_branch = "TF_GITHUB_BRANCH"
-
-

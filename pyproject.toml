@@ -34,6 +34,49 @@ dependencies = [
 
 ]
 
+[tool.deptry.per_rule_ignores]
+DEP001 = ["conftest"]
+DEP002 = ["pytest-html", "pytest-asyncio", "pytest-cov", "pillow", "python-socketio"]
+DEP003 = ["workloads"]
+DEP005 = ["asyncio"]
+
+[tool.ruff]
+extend-exclude = ["ecs-batch"]
+fix = true
+line-length = 120
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".terraform",
+    ".history",
+    ".git",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.3"
+sphinx = "^7"
+sphinxcontrib-napoleon = "^0.7"
+pymarkdownlnt = "^0.9.29"
+yamllint = "^1.37.0"
+bandit = "^1.8.3"
+pip-audit = "^2.9.0"
+deptry = "^0.23.0"
+pytest-playwright = "^0.7.0"
+pip = ">=25.2"
+pre-commit = "^4.4.0"
+
 
 [project.scripts]
 autox = "autox.cli.root:cli"
