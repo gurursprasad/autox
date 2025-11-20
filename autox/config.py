@@ -1,7 +1,5 @@
 from enum import Enum
 from pathlib import Path
-import click
-from dotenv import dotenv_values, load_dotenv
 
 # Set autox root and environments directory paths
 AUTOX_ROOT = Path(__file__).resolve().parents[1]
