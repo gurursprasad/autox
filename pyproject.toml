@@ -30,7 +30,8 @@ dependencies = [
     "pexpect",
     "paramiko",
     "pandas",
-    "jsonschema"
+    "jsonschema",
+    ruff
 
 ]
 
