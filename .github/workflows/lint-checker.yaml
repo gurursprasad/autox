@@ -28,7 +28,7 @@ jobs:
       run: pip install poetry
 
     - name: Install dependencies
-      run: poetry install
+      run: poetry install --no-interaction
 
     - name: Run Ruff lint check
-      run: ruff check .
+      run: poetry run ruff check .
