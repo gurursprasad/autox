@@ -31,7 +31,8 @@ dependencies = [
     "paramiko",
     "pandas",
     "jsonschema",
-    "ruff"
+    "ruff",
+    "pydantic"
 ]
 
 [tool.deptry.per_rule_ignores]
