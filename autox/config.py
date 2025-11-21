@@ -1,9 +1,8 @@
 import os
-
-import pydantic
 from enum import Enum
 from pathlib import Path
-from autox.autox_logger import logger
+
+import pydantic
 
 # Set autox root and environments directory paths
 AUTOX_ROOT = Path(__file__).resolve().parents[1]
@@ -30,7 +29,7 @@ class ConfigMap(Enum):
 
         def default_factory():
             env_variable_value = os.environ.get(env_variable_name, default)
-            
+
             # Convert to bool if specified and the value is a string
             if convert_to_bool and isinstance(env_variable_value, str):
                 env_variable_value = env_variable_value.upper() in {"TRUE", "YES", "1"}
@@ -42,12 +41,9 @@ class ConfigMap(Enum):
             return env_variable_value
 
         return pydantic.Field(default_factory=default_factory)
-    
 
     def can_be_saved(self):
         return not hasattr(self, "do_not_save")
-    
+
 
 # class Config:
-
-
