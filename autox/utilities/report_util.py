@@ -19,10 +19,10 @@
 #     fromaddr = os.environ.get("EMAIL_ADDRESS")
 #     password = os.environ.get("EMAIL_PASSWORD")
 
-#     # Get head node version and prepare new report file name
-#     head_node_version = get_headnode_version_info()
+#     # Get server node version and prepare new report file name
+#     server_node_version = server_node_version()
 #     base, ext = os.path.splitext(report_file)
-#     new_report_file = f"{base}_{head_node_version}{ext}"
+#     new_report_file = f"{base}_{server_node_version}{ext}"
 
 #     # Rename the report file
 #     shutil.copy(report_file, new_report_file)
@@ -30,7 +30,7 @@
 #     msg = MIMEMultipart()
 #     msg['From'] = fromaddr
 #     msg['To'] = ", ".join(recipients)
-#     msg['Subject'] = f"Test Report for cop version: {head_node_version}"
+#     msg['Subject'] = f"Test Report for cop version: {server_node_version}"
 
 #     body = "Please find the attached HTML report for the recent test run."
 #     msg.attach(MIMEText(body, 'plain'))

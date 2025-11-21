@@ -7,8 +7,8 @@ from autox.aws.aws_ec2_util import get_public_ip
 
 
 def get_app_version_info():
-    head_node_url = get_public_ip()
-    api_url = f"http://{head_node_url}:5000/v1/info"
+    ec2_node_url = get_public_ip()
+    api_url = f"http://{ec2_node_url}:5000/v1/info"
     headers = {"Accept": "application/json"}
     response = requests.get(api_url, headers=headers)
     response_data = response.json()

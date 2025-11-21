@@ -18,7 +18,7 @@ def connect_to_ec2_machine():
         )
         ssm_client = boto3.client("ssm")
 
-        response = ec2.describe_instances(InstanceIds=[os.environ.get("HEAD_NODE_EC2_INSTANCE_ID")])
+        response = ec2.describe_instances(InstanceIds=[os.environ.get("EC2_INSTANCE_ID")])
         instance_dns = response["Reservations"][0]["Instances"][0]["PublicDnsName"]
 
         # Retrieve PEM key from Parameter Store
@@ -35,7 +35,7 @@ def connect_to_ec2_machine():
 
         ssh.connect(
             instance_dns,
-            username=os.environ.get("HEAD_NODE_EC2_USERNAME"),
+            username=os.environ.get("EC2_USERNAME"),
             pkey=private_key,
         )
         return ssh
@@ -67,7 +67,7 @@ def execute_ec2_commands(command):
 def get_public_ip():
     try:
         ec2 = boto3.client("ec2")
-        response = ec2.describe_instances(InstanceIds=[os.environ.get("HEAD_NODE_EC2_INSTANCE_ID")])
+        response = ec2.describe_instances(InstanceIds=[os.environ.get("EC2_INSTANCE_ID")])
 
         for reservation in response["Reservations"]:
             for instance in reservation["Instances"]:
@@ -84,7 +84,7 @@ def get_public_ip():
 def get_private_ip():
     try:
         ec2 = boto3.client("ec2")
-        response = ec2.describe_instances(InstanceIds=[os.environ.get("HEAD_NODE_EC2_INSTANCE_ID")])
+        response = ec2.describe_instances(InstanceIds=[os.environ.get("EC2_INSTANCE_ID")])
 
         for reservation in response["Reservations"]:
             for instance in reservation["Instances"]:
