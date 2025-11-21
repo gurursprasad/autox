@@ -4,7 +4,10 @@ on: [pull_request]
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macOS, ARM64]
+    env:
+      RUNNER_TOOL_CACHE: /Users/guruprasad/.cache/hostedtoolcache
+      RUNNER_TEMP: /Users/guruprasad/.cache/runner_temp    
 
     steps:
     - name: Checkout repository
