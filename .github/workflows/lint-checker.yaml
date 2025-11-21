@@ -1,6 +1,6 @@
 name: Python Lint
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   lint:
@@ -13,7 +13,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12' # Specify your desired Python version
+        python-version: '3.12'
 
     - name: Set up Virtual Environment
       run: python -m venv .venv
