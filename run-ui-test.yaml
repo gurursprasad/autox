@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ui-test-pod
+  labels:
+    app: pytest
+spec:
+  restartPolicy: Never
+  containers:
+  - name: pytest-container
+    image: 234654645.dkr.ecr.us-west-2.amazonaws.com/pytest:latest
+    args: ["ui_tests/test_challenging_dom.py", "ui_tests/test_frames.py"]
+    env:
+    - name: AWS_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: pytest-secrets
+          key: AWS_ACCESS_KEY_ID
+    - name: AWS_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: pytest-secrets
+          key: AWS_SECRET_ACCESS_KEY
+    - name: AWS_PARAMETER_STORE_PEM_KEY_FILE
+      valueFrom:
+        secretKeyRef:
+          name: pytest-secrets
+          key: AWS_PARAMETER_STORE_PEM_KEY_FILE
+    - name: AWS_REGION
+      valueFrom:
+        secretKeyRef:
+          name: pytest-secrets
+          key: AWS_REGION
+    - name: TESTMO_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: pytest-secrets
+          key: TESTMO_TOKEN
+    - name: GITHUB_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: pytest-secrets
+          key: GITHUB_TOKEN
+    - name: JIRA_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: pytest-secrets
+          key: JIRA_TOKEN
+    - name: JIRA_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: pytest-secrets
+          key: JIRA_USERNAME
+    - name: CLUSTER_NAME
+      valueFrom:
+        configMapKeyRef:
+          name: pytest-env-vars
+          key: CLUSTER_NAME
+    - name: TEST_NAME
+      valueFrom:
+        configMapKeyRef:
+          name: pytest-env-vars
+          key: UI_TESTS               
+    ports:
+    - containerPort: 8080
+      name: http

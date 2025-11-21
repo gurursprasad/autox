@@ -32,7 +32,19 @@ dependencies = [
     "pandas",
     "jsonschema",
     "ruff",
-    "pydantic"
+    "pydantic",
+
+    "deepdiff",
+    "jira",
+    "azure-identity",
+    "azure-mgmt-compute",
+    "azure-mgmt-network",
+    "pytest-asyncio",
+    "asyncio",
+    "pytest-cov",
+    "google",
+    "google-api-core",
+    "google-cloud-container"
 ]
 
 [tool.deptry.per_rule_ignores]

@@ -10,8 +10,10 @@ ENVIRONMENTS_DIR = Path(AUTOX_ROOT, "environments")
 
 
 class ConfigMap(Enum):
-    log_level = "LOG_LEVEL"
     app_url = "APP_URL"
+    api_url = "API_URL"
+    api_key = "API_KEY"
+    log_level = "LOG_LEVEL"
     # AWS related configurations
     aws_region = "AWS_REGION"
     aws_availability_zone = "AWS_AVAILABILITY_ZONE"
@@ -46,4 +48,22 @@ class ConfigMap(Enum):
         return not hasattr(self, "do_not_save")
 
 
-# class Config:
+class Config:
+    app_url = ConfigMap.app_url.source()
+    api_url = ConfigMap.api_url.source()
+    api_key = ConfigMap.api_key.source()
+    log_level = ConfigMap.log_level.source()
+    # AWS related configurations
+    aws_region = ConfigMap.aws_region.source()
+    aws_availability_zone = ConfigMap.aws_availability_zone.source()
+    aws_account_id = ConfigMap.aws_account_id.source()
+    eks_cluster_name = ConfigMap.eks_cluster_name.source()
+    # GitHub related configurations
+    github_token = ConfigMap.github_token.source()
+    github_repo_owner = ConfigMap.github_repo_owner.source()
+    # Terraform repo related configurations
+    tf_github_repo = ConfigMap.tf_github_repo.source()
+    tf_github_branch = ConfigMap.tf_github_branch.source()
+
+
+config = Config()
