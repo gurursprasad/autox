@@ -24,7 +24,6 @@ SET_LOG_LEVEL = getattr(logging, os.environ.get("LOG_LEVEL", "DEBUG").upper())
 
 
 def set_autox_log_path():
-    # datefmt = "%d/%m/%Y %I:%M:%S %P"
     # Use a filesystem-safe timestamp (avoid ':' which is invalid on Windows)
     time_format = "run-%Y-%m-%d-%H-%M-%S"
     timestamp_directory = datetime.now().strftime(time_format)
@@ -57,22 +56,13 @@ class ColorFormatter(logging.Formatter):
 def setup_logger():
     log_path = set_autox_log_path() / LOG_FILE_NAME
 
-    # 1. Create logger and set level
+    # Create logger object and set-level
     logger = logging.getLogger(__name__)
-    # Ensure logger has the configured level so handler levels take effect
     logger.setLevel(SET_LOG_LEVEL)
-    # Prevent messages from being propagated to the root logger (avoid duplicates)
+
     logger.propagate = False
 
-    # 2. Create Handler object and set level
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(SET_LOG_LEVEL)
-
-    # FileHandler accepts path-like objects on modern Python; convert to str for safety
-    file_handler = logging.FileHandler(str(log_path), mode="w")
-    file_handler.setLevel(SET_LOG_LEVEL)
-
-    # 3. Create formatter object
+    # Create formatter object
     color_formatter = ColorFormatter(
         "%(asctime)s - %(name)s - %(levelname_colored)s >> %(message)s - %(filename)s:line:%(lineno)d",
         datefmt=DATE_TIME_FORMAT,
@@ -82,17 +72,22 @@ def setup_logger():
         datefmt=DATE_TIME_FORMAT,
     )
 
-    # 4. Set formatter to handler
-    # Stream handler with color
-    console_handler.setFormatter(color_formatter)
-    # 5. Set handler to object
-    logger.addHandler(console_handler)
+    if not logger.handlers:
+        # Create handler object and set-level
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(SET_LOG_LEVEL)
+        # Associate formatter and handler object
+        console_handler.setFormatter(color_formatter)
+        # Associate handler and logger object
+        logger.addHandler(console_handler)
 
-    # 4. Set formatter to handler
-    # File handler without color
-    file_handler.setFormatter(plain_formatter)
-    # 5. Set handler to object
-    logger.addHandler(file_handler)
+        # Create handler object and set-level
+        file_handler = logging.FileHandler(str(log_path), mode="w")
+        file_handler.setLevel(SET_LOG_LEVEL)
+        # Associate formatter and handler object
+        file_handler.setFormatter(plain_formatter)
+        # Associate handler and logger object
+        logger.addHandler(file_handler)
 
     return logger
 

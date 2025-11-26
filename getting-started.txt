@@ -1,7 +1,0 @@
-Install python 3.14
-Setup a Virtual Environment in the root of the project
-Install Poetry
-Have autox/__init__.py in the root
-Do poetry init
-Add dependencies in pyproject.toml
-Do poetry Install
