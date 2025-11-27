@@ -34,4 +34,5 @@ jobs:
       run: poetry install --no-interaction
 
     - name: Run Ruff lint check
-      run: poetry run ruff check --exit-non-zero-on-fix .
+      run: poetry run ruff check --exit-non-zero-on-fix --no-fix .
+
