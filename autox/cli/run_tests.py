@@ -4,13 +4,14 @@ from autox.autox_logger import logger
 from autox.utilities.common_utils import execute_command_realtime
 
 
-@click.group(name="run-ui-tests", help="Run ui tests.")
-def ui_tests():
-    """Run UI tests."""
+# cli root group
+@click.group(name="run-tests", help="Choose tests to run")
+def run_tests_group():
+    """Run UI and API tests."""
     pass
 
 
-@ui_tests.command(name="run-ui-tests", help="Runs all UI tests from autox/tests/ui_tests directory")
+@click.command(name="ui", help="Runs all UI tests from autox/tests/ui_tests directory")
 @click.option("--browser", default="chrome", help="Browser to run test on. Default browser is Chrome.")
 @click.option(
     "--headless",
@@ -44,13 +45,7 @@ def run_ui_tests(browser, headless=False):
         logger.error("Issue running UI tests")
 
 
-@click.group(name="run-api-tests", help="Run api tests.")
-def api_tests():
-    """Run api tests."""
-    pass
-
-
-@ui_tests.command(name="run-api-tests", help="Runs all API tests from autox/tests/api_tests directory")
+@click.command(name="api", help="Runs all API tests from autox/tests/api_tests directory")
 def run_api_tests():
     # Build command as a list of executable + args so subprocess runs correctly
     cmd = [
@@ -69,3 +64,7 @@ def run_api_tests():
     exit_code = execute_command_realtime(cmd)
     if exit_code != 0:
         logger.error("Issue running API tests")
+
+
+run_tests_group.add_command(run_ui_tests)
+run_tests_group.add_command(run_api_tests)

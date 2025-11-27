@@ -2,7 +2,8 @@ import click
 
 from autox import __version__, config
 from autox.autox_logger import logger
-from autox.cli.run_tests import run_api_tests, run_ui_tests
+from autox.cli.environments import env_group
+from autox.cli.run_tests import run_tests_group
 
 
 @click.group(invoke_without_command=True)
@@ -47,5 +48,5 @@ def cli(ctx, help, log_level):
             click.echo("Use 'autox --help' for usage details.")
 
 
-cli.add_command(run_ui_tests)
-cli.add_command(run_api_tests)
+cli.add_command(run_tests_group)
+cli.add_command(env_group)

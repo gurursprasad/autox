@@ -4030,6 +4030,18 @@ files = [
 test = ["coverage", "pytest", "pytest-cov"]
 
 [[package]]
+name = "unique-namer"
+version = "1.6.2"
+description = "Generate unique, human-readable, and memorable names or identifiers"
+optional = false
+python-versions = ">=3.6"
+groups = ["main"]
+files = [
+    {file = "unique_namer-1.6.2-py3-none-any.whl", hash = "sha256:d23214dc286a362b202ab7d8d5f01e04dc240195bbe885d119e2aad97fced448"},
+    {file = "unique_namer-1.6.2.tar.gz", hash = "sha256:5dab8e0f9be6e72df30d6516381ed768cc1a3e79f1fcd7d22fb45c2f7294b001"},
+]
+
+[[package]]
 name = "urllib3"
 version = "2.5.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -4154,4 +4166,4 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<4.0.0"
-content-hash = "1acb3ea9375de49ec147482ee128ca45294e803a7e2aa5397ba8cfec317be276"
+content-hash = "66c165a98d7b1d3039475417c0da61a13adff2c195ffd0fd7185381251fb64f0"

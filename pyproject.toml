@@ -44,7 +44,9 @@ dependencies = [
     "pytest-cov",
     "google",
     "google-api-core",
-    "google-cloud-container"
+    "google-cloud-container",
+    
+    "unique-namer"
 ]
 
 [tool.deptry.per_rule_ignores]
