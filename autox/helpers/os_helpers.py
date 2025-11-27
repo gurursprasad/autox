@@ -69,3 +69,30 @@ def open_and_read_from_file(file_path, env_name=None):
     except Exception as e:
         logger.exception(e)
         logger.error(f"Error reading from file '{file_path}'")
+
+
+def write_to_file(file_path, mode=None, text=None):
+    try:
+        p = Path(file_path)
+        # Ensure parent directory exists
+        if not p.parent.exists():
+            logger.warning(f"Specified file does not exist: {file_path}")
+            return
+        
+        logger.info(f"Specified file located and writing to file: {file_path}")
+        
+        if not mode:
+            mode = "w"
+
+        with p.open(str(mode)) as f:
+            if text is not None:
+                # Ensure we write a string (caller may pass non-str objects)
+                if not isinstance(text, str):
+                    env_text = str(text)
+                else:
+                    env_text = text
+                f.write(env_text)
+        return True
+    except Exception as e:
+        logger.error(f"Error writing to file '{file_path}'")
+        return e

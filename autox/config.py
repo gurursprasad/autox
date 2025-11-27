@@ -13,6 +13,7 @@ from autox.helpers.os_helpers import (
     generate_random_name,
     make_directory,
     open_and_read_from_file,
+    write_to_file,
 )
 
 # Set autox root and environments directory paths
@@ -139,13 +140,63 @@ class EnvVars:
         logger.info(f"Active env selected is: {active_env}")
 
     @staticmethod
-    def add_new_env_var():
+    def set_active_env(env_name):
+        active_file_path = os.path.join(ENVIRONMENTS_DIR, "active")
+        w = write_to_file(active_file_path, mode="w", text=env_name)
+        if not w:
+            logger.error("Error setting active env")
+            return
+        logger.info(f"Set active env to: {env_name}")
+
+    @staticmethod
+    def add_new_env_var(**kwargs):
         active_file_path = os.path.join(ENVIRONMENTS_DIR, "active")
         active_env = open_and_read_from_file(active_file_path)
         if not active_env:
             logger.warning(f"The file {active_file_path} is empty")
             return
+        active_env = active_env.strip()
         logger.info(f"Active env selected is: {active_env}")
+        env_directory = os.path.join(ENVIRONMENTS_DIR, active_env)
+        logger.debug(env_directory)
 
+        # Ensure env directory exists
+        make_directory(env_directory)
+
+        env_file = os.path.join(env_directory, "env")
+
+        # Read existing env file contents (all lines)
+        existing_lines = []
+        if os.path.exists(env_file):
+            try:
+                with open(env_file, "r") as f:
+                    existing_lines = f.read().splitlines()
+            except Exception:
+                logger.exception(f"Failed to read env file: {env_file}")
+
+        # Update or append key=value pairs from kwargs
+        for k, v in kwargs.items():
+            logger.debug(f"Setting env var: {k}={v}")
+            found = False
+            for i, line in enumerate(existing_lines):
+                if not line:
+                    continue
+                # Split only on first '=' to allow '=' in the value
+                parts = line.split("=", 1)
+                if parts[0] == k:
+                    existing_lines[i] = f"{k}={v}"
+                    found = True
+                    break
+
+            if not found:
+                existing_lines.append(f"{k}={v}")
+
+        new_text = "\n".join(existing_lines) + ("\n" if existing_lines else "")
+        w = write_to_file(env_file, mode="w", text=new_text)
+        if not w:
+            logger.error(f"Error writing updated env file: {env_file}")
+        else:
+            logger.info(f"Updated env file: {env_file}")
+   
 
 config = Config()
