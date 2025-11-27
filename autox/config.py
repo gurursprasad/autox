@@ -3,11 +3,9 @@ from enum import Enum
 from pathlib import Path
 from typing import Optional
 
-import click
-from autox.autox_logger import logger
-
 from pydantic import BaseModel, Field
 
+from autox.autox_logger import logger
 from autox.helpers.os_helpers import (
     create_and_write_to_file,
     generate_random_name,
@@ -197,6 +195,6 @@ class EnvVars:
             logger.error(f"Error writing updated env file: {env_file}")
         else:
             logger.info(f"Updated env file: {env_file}")
-   
+
 
 config = Config()

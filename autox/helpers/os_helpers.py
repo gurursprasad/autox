@@ -1,7 +1,8 @@
-import os
 import uuid
 from pathlib import Path
+
 import namer
+
 from autox.autox_logger import logger
 
 
@@ -78,9 +79,9 @@ def write_to_file(file_path, mode=None, text=None):
         if not p.parent.exists():
             logger.warning(f"Specified file does not exist: {file_path}")
             return
-        
+
         logger.info(f"Specified file located and writing to file: {file_path}")
-        
+
         if not mode:
             mode = "w"
 

@@ -1,8 +1,6 @@
 import click
 
-from autox.autox_logger import logger
 from autox.config import EnvVars
-from autox.utilities.common_utils import execute_command_realtime
 
 
 # cli root group
