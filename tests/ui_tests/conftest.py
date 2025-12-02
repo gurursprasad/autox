@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
+from autox.config import config
+
 driver = None
 
 
@@ -50,7 +52,8 @@ def setup_driver(request):
         service = ChromeService(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)
 
-    driver.get("https://the-internet.herokuapp.com/")
+    # driver.get("https://the-internet.herokuapp.com/")
+    driver.get(config.app_url)
     driver.maximize_window()
 
     request.cls.driver = driver

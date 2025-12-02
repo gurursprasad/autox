@@ -3,6 +3,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 
 from autox.autox_logger import logger
@@ -14,9 +15,33 @@ from autox.helpers.os_helpers import (
     write_to_file,
 )
 
+# Load dotenv early so logger configuration (and any other modules)
+# can pick up environment variables from an active env file.
 # Set autox root and environments directory paths
 AUTOX_ROOT = Path(__file__).resolve().parent.parent
 ENVIRONMENTS_DIR = Path(AUTOX_ROOT, "env_vars")
+
+try:
+    active_file = ENVIRONMENTS_DIR / "active"
+    if active_file.exists():
+        active_name = active_file.read_text().strip()
+        if active_name:
+            env_path = ENVIRONMENTS_DIR / active_name / "env"
+            if env_path.exists():
+                load_dotenv(dotenv_path=str(env_path), override=True)
+            else:
+                load_dotenv()
+        else:
+            load_dotenv()
+    else:
+        load_dotenv()
+except Exception:
+    load_dotenv()
+
+# Ensure LOG_LEVEL is not an empty string (some environments may set it to '' which would cause `getattr(logging, '')` errors).
+# Default to 'DEBUG' when unset/empty so logger initialization is robust.
+# if not os.environ.get("LOG_LEVEL") or not os.environ.get("LOG_LEVEL").strip():
+#     os.environ["LOG_LEVEL"] = "DEBUG"
 
 
 class ConfigMap(Enum):
@@ -59,6 +84,8 @@ class ConfigMap(Enum):
 
 
 class Config(BaseModel):
+    # dotenv is loaded at module import time (see above). Fields read
+    # from `os.environ` via default factories so values reflect loaded env.
     app_url: Optional[str] = Field(default_factory=lambda: os.environ.get(ConfigMap.app_url.value))
     api_url: Optional[str] = Field(default_factory=lambda: os.environ.get(ConfigMap.api_url.value))
     api_key: Optional[str] = Field(default_factory=lambda: os.environ.get(ConfigMap.api_key.value))

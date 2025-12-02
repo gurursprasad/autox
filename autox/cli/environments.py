@@ -4,7 +4,7 @@ from autox.config import EnvVars
 
 
 # cli root group
-@click.group(name="env", help="crud operations for env management")
+@click.group(name="env-management", help="crud operations for env management")
 def env_group():
     """Manage Env."""
     pass
