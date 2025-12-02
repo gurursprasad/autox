@@ -2,8 +2,10 @@ import click
 
 from autox import __version__, config
 from autox.autox_logger import logger
+from autox.cli.deploy_infra import deploy_group
 from autox.cli.environments import env_group
 from autox.cli.run_tests import run_tests_group
+
 
 
 @click.group(invoke_without_command=True)
@@ -50,3 +52,4 @@ def cli(ctx, help, log_level):
 
 cli.add_command(run_tests_group)
 cli.add_command(env_group)
+cli.add_command(deploy_group)

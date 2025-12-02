@@ -4,6 +4,8 @@ import random
 import string
 import subprocess
 
+from autox.autox_logger import logger
+
 
 def execute_command(command):
     try:
@@ -35,7 +37,7 @@ def execute_command_realtime(command):
         return process.returncode
     except subprocess.TimeoutExpired:
         process.kill()
-        print("Command timed out after 600 seconds.")
+        logger.error("Command timed out after 600 seconds.")
         return -1
 
 
@@ -62,7 +64,7 @@ def scan_logs_for_pattern(log_file_path):
                     return log_line
         return False
     except FileNotFoundError:
-        print(f"Log file {log_file_path} not found.")
+        logger.error(f"Log file {log_file_path} not found.")
         return False
 
 
