@@ -60,6 +60,7 @@ class ConfigMap(Enum):
     # Terraform repo related configurations
     tf_github_repo = "TF_GITHUB_REPO"
     tf_github_branch = "TF_GITHUB_BRANCH"
+    tf_directory_path = "TF_DIRECTORY_PATH"
 
     def source(self, default=None, convert_to_bool=False, post_process=None):
         env_variable_name = self.value
@@ -106,6 +107,7 @@ class Config(BaseModel):
     # Terraform repo related configurations
     tf_github_repo: Optional[str] = Field(default_factory=lambda: os.environ.get(ConfigMap.tf_github_repo.value))
     tf_github_branch: Optional[str] = Field(default_factory=lambda: os.environ.get(ConfigMap.tf_github_branch.value))
+    tf_directory_path: Optional[str] = Field(default_factory=lambda: os.environ.get(ConfigMap.tf_github_branch.value))
 
 
 class EnvVars:

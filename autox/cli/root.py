@@ -7,7 +7,6 @@ from autox.cli.environments import env_group
 from autox.cli.run_tests import run_tests_group
 
 
-
 @click.group(invoke_without_command=True)
 @click.version_option(version=__version__, prog_name="autox")
 @click.option("--help", is_flag=True, help="Show this message and exit.")

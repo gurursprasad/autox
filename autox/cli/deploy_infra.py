@@ -1,7 +1,9 @@
 import click
 
-from autox.config import EnvVars
+from autox import config
 from autox.deploy_infra.terraform import Terraform
+
+TF_DIRECTORY_PATH = config.tf_directory_path
 
 
 # cli root group
@@ -13,17 +15,17 @@ def deploy_group():
 
 @click.command(name="terraform-init", help="Prepare your working directory for other commands.")
 def tf_init():
-    Terraform.terraform_init()
+    Terraform.terraform_run("init", TF_DIRECTORY_PATH)
 
 
 @click.command(name="terraform-apply", help="Create or update infrastructure.")
 def tf_apply():
-    Terraform.terraform_apply()
+    Terraform.terraform_run("apply", TF_DIRECTORY_PATH)
 
 
 @click.command(name="terraform-destroy", help="Destroy previously-created infrastructure.")
 def tf_destroy():
-    Terraform.terraform_destroy()
+    Terraform.terraform_run("destroy", TF_DIRECTORY_PATH)
 
 
 deploy_group.add_command(tf_init)

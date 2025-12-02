@@ -1,10 +1,13 @@
 import datetime
 import json
 import random
+import re
 import string
 import subprocess
 
 from autox.autox_logger import logger
+
+ANSI_ESCAPE = re.compile(r"(\x9B|\x1B\[)[0-?]*[ -/]*[@-~]")
 
 
 def execute_command(command):
@@ -14,7 +17,27 @@ def execute_command(command):
     except subprocess.TimeoutExpired:
         process.kill()
         out, err = process.communicate()
-    return out.decode("utf-8"), err.decode("utf-8")
+    return strip_ansi_codes(out.decode("utf-8")), strip_ansi_codes(err.decode("utf-8"))
+
+
+def run_command(command):
+    try:
+        process = subprocess.run(command, check=True, capture_output=True, text=True)
+
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Command failed with return code {e.returncode}: {e.cmd}")
+        if e.stdout:
+            logger.error(f"{strip_ansi_codes(e.stdout.strip())}")
+        if e.stderr:
+            logger.error(f"{strip_ansi_codes(e.stderr.strip())}")
+
+        return None, None
+
+    except FileNotFoundError:
+        logger.error(f"Executable not found. Check if '{command[0]}' is in your PATH.")
+        return None, None
+
+    return strip_ansi_codes(process.stdout), strip_ansi_codes(process.stderr)
 
 
 def execute_command_realtime(command):
@@ -72,3 +95,8 @@ def read_data_from_file(file_path):
     with open(file_path, "r") as f:
         data = json.load(f)
     return data
+
+
+def strip_ansi_codes(text):
+    """Removes ANSI escape codes from a string."""
+    return ANSI_ESCAPE.sub("", text)
