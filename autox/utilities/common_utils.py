@@ -100,3 +100,8 @@ def read_data_from_file(file_path):
 def strip_ansi_codes(text):
     """Removes ANSI escape codes from a string."""
     return ANSI_ESCAPE.sub("", text)
+
+
+def assert_with_log(expected, actual, message):
+    logger.info(f"Checking: expected={expected}, actual={actual}")
+    assert expected in actual, message

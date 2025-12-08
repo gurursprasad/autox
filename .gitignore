@@ -4,6 +4,7 @@ results
 report.html
 env_vars
 *.tfstate
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

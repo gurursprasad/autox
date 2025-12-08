@@ -64,11 +64,11 @@ def setup_logger():
 
     # Create formatter object
     color_formatter = ColorFormatter(
-        "%(asctime)s - %(name)s - %(levelname_colored)s >> %(message)s - %(filename)s:line:%(lineno)d",
+        "%(asctime)s - %(name)s - %(levelname_colored)s >>> %(message)s > %(filename)s:line:%(lineno)d",
         datefmt=DATE_TIME_FORMAT,
     )
     plain_formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s >> %(message)s - %(filename)s:line:%(lineno)d",
+        "%(asctime)s - %(name)s - %(levelname)s >>> %(message)s > %(filename)s:line:%(lineno)d",
         datefmt=DATE_TIME_FORMAT,
     )
 

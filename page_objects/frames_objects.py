@@ -2,6 +2,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from autox.utilities.common_utils import assert_with_log
+from autox.autox_logger import logger
+
 
 class FramesObjects:
     def __init__(self, driver):
@@ -16,6 +19,8 @@ class FramesObjects:
 
     def click_i_frames(self):
         wait = WebDriverWait(self.driver, 10)
+        # Switch to default content first to ensure we're on the main page
+        self.driver.switch_to.default_content()
         wait.until(EC.element_to_be_clickable((By.XPATH, self.i_frames))).click()
 
     def switch_to_frame(self, frame_reference):
@@ -26,10 +31,10 @@ class FramesObjects:
         # Locate the frameset element
         frameset = self.driver.find_element(By.TAG_NAME, "frameset")
 
-        # Validate frameset attributes
-        assert frameset.get_attribute("frameborder") == "1", "Frameborder should be 1"
-        assert frameset.get_attribute("name") == "frameset-middle", "Name should be frameset-middle"
-        assert frameset.get_attribute("cols") == "33%,33%,33%", "Cols should be 33%,33%,33%"
+       # Validate frameset attributes
+        assert_with_log("1", frameset.get_attribute("frameborder"), "Frameborder should be 1")
+        assert_with_log("frameset-middle", frameset.get_attribute("name"), "Name should be frameset-middle")
+        assert_with_log("33%,33%,33%", frameset.get_attribute("cols"), "Cols should be 33%,33%,33%")
 
         # Find all frame elements within the frameset
         frames = frameset.find_elements(By.TAG_NAME, "frame")
@@ -45,13 +50,11 @@ class FramesObjects:
         # Validate each frame
         for i, frame in enumerate(frames):
             expected = expected_frames[i]
-            assert frame.get_attribute("src") == expected["src"], f"Frame {i} src should be {expected['src']}"
-            assert frame.get_attribute("scrolling") == expected["scrolling"], (
-                f"Frame {i} scrolling should be {expected['scrolling']}"
-            )
-            assert frame.get_attribute("name") == expected["name"], f"Frame {i} name should be {expected['name']}"
-
-        print("Frameset validation successful")
+            assert_with_log(expected["src"], frame.get_attribute("src"), f"Frame {i} src should be {expected['src']}")
+            assert_with_log(expected["scrolling"], frame.get_attribute("scrolling"), f"Frame {i} scrolling should be {expected['scrolling']}")
+            assert_with_log(expected["name"], frame.get_attribute("name"), f"Frame {i} name should be {expected['name']}")
+            
+        logger.info("Frameset validation successful")
 
     def switch_to_default_content(self):
         self.driver.switch_to.default_content()
@@ -80,9 +83,9 @@ class FramesObjects:
             content = editor_body.get_attribute("innerHTML")
             assert "Your content goes here." in content, "Initial content should be present"
 
-            print("Iframe content validation successful")
+            logger.info("Iframe content validation successful")
         except Exception as e:
-            print(f"Error validating iframe content: {e}")
+            logger.info(f"Error validating iframe content: {e}")
         finally:
             # Switch back to default content
             self.driver.switch_to.default_content()
@@ -95,4 +98,4 @@ class FramesObjects:
         toolbar = self.driver.find_element(By.CLASS_NAME, "tox-toolbar-overlord")
         assert "tox-tbtn--disabled" in toolbar.get_attribute("class"), "Toolbar should be disabled"
 
-        print("Iframe validation successful")
+        logger.info("Iframe validation successful")
